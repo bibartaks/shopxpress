@@ -1,0 +1,33 @@
+#category {
+  padding: 0rem 2rem;
+}
+
+.category_container {
+  padding: 2rem 0;
+  max-width: 1500px;
+  margin: auto;
+
+  .category_boxes {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 200px));
+    cursor: pointer;
+
+    grid-gap: 1rem;
+    .category_box {
+      border: 1px solid rgb(109, 40, 217);
+      text-align: center;
+      padding: 2rem 0rem;
+      transition: 0.5s all linear;
+
+      img {
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-weight: 400;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

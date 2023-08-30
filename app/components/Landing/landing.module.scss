@@ -1,0 +1,109 @@
+@import '../../styles/variable.scss';
+
+#landing {
+  background: url('/pattern.svg');
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  padding: 0 2rem;
+
+  @media screen and (max-width: 1200px) {
+    padding: 0;
+  }
+
+  .landing_container {
+    max-width: 1500px;
+    margin: auto;
+    height: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media screen and (max-width: 1200px) {
+      flex-direction: column;
+      align-items: start;
+      justify-content: start;
+      padding: 5rem 2rem;
+    }
+
+    .landing_gradient {
+      width: 150px;
+      height: 900px;
+      transform: rotate(220deg);
+
+      background: linear-gradient(to left, skyblue, rgb(109, 40, 217));
+      filter: blur(60px);
+      right: 20%;
+      top: 0;
+      position: absolute;
+      z-index: -1;
+
+      @media screen and (max-width: 1200px) {
+        right: 20%;
+        top: 0;
+      }
+
+      @media screen and (max-width: 700px) {
+        top: 50%;
+        right: 0;
+        width: 300px;
+        height: 300px;
+      }
+    }
+
+    .landing_text_content {
+      @media screen and (max-width: 1200px) {
+        margin-bottom: 5rem;
+      }
+      h1 {
+        margin-bottom: 1rem;
+
+        @media screen and (max-width: 700px) {
+          font-size: 1.5rem;
+        }
+      }
+
+      .shopxpress_text {
+        color: rgb(109, 40, 217);
+      }
+
+      p {
+        max-width: 600px;
+        text-align: justify;
+        line-height: 200%;
+        margin-bottom: 2rem;
+        color: $link_color;
+
+        @media screen and (max-width: 700px) {
+          text-align: left;
+        }
+      }
+
+      a {
+        background-color: rgb(15, 23, 42);
+        text-decoration: none;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+
+    .landing_img_content {
+      @media screen and (max-width: 700px) {
+        width: 100%;
+      }
+      img {
+        width: 600px;
+        height: 100%;
+
+        @media screen and (max-width: 700px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

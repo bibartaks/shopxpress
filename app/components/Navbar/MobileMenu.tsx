@@ -13,7 +13,7 @@ export default function MobileMenu() {
   }
 
   return (
-    <>
+    <nav className={styles.mobile_nav_container}>
       <div className={styles.mobile_nav}>
         <Image
           className={styles.mobile_nav_icon}
@@ -42,6 +42,6 @@ export default function MobileMenu() {
           <Link href="/">Contact Us</Link>
         </div>
       ) : null}
-    </>
+    </nav>
   )
 }

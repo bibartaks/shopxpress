@@ -1,12 +1,15 @@
 'use client'
 
-import Navbar from './components/Navbar/Navbar'
-import { useGlobalContext } from './context/GlobalContext'
+import Landing from '@/components/Landing'
+import Navbar from '@/components/Navbar'
+import Category from './components/Category/Category'
 
 export default function Home() {
   return (
     <>
       <Navbar />
+      <Landing />
+      <Category />
     </>
   )
 }
