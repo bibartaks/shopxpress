@@ -25,9 +25,10 @@ export default function Landing() {
         <div className={styles.landing_img_content}>
           <Image
             src="/landing_store.png"
-            height={1000}
+            height={600}
             width={1000}
             alt="landing image"
+            quality={80}
           />
         </div>
       </div>

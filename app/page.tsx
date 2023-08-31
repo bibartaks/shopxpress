@@ -1,8 +1,7 @@
-'use client'
-
 import Landing from '@/components/Landing'
 import Navbar from '@/components/Navbar'
-import Category from './components/Category/Category'
+import Category from '@/components/Category'
+import TrendingProducts from '@/components/TrendingProducts'
 
 export default function Home() {
   return (
@@ -10,6 +9,7 @@ export default function Home() {
       <Navbar />
       <Landing />
       <Category />
+      <TrendingProducts />
     </>
   )
 }
