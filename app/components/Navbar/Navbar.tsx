@@ -3,6 +3,7 @@ import styles from './navbar.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
 import MobileMenu from './MobileMenu'
+import TotalQuantity from '../TotalQuantity/TotalQuantity'
 
 export default function Navbar() {
   return (
@@ -15,7 +16,8 @@ export default function Navbar() {
           <Link href="/">Home</Link>
           <Link href="/products">Products</Link>
           <Link href="/">About Us</Link>
-          <Link href="/">Contact Us</Link>
+          {/* <Link href="/">Contact Us</Link> */}
+          <TotalQuantity />
           <Link href="/">
             <Image
               className={styles.cart_icon}

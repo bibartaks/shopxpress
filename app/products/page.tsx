@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client'
 
 import Navbar from '@/components/Navbar'
@@ -9,6 +10,8 @@ import Sidebar from '@/components/Sidebar'
 import useSWR from 'swr'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
+import Loading from '@/components/Loading/Loading'
+import fetcher from 'lib/fetcher'
 
 type Products = {
   id: string
@@ -21,31 +24,35 @@ type Products = {
 }
 
 export default function Products() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const typeFilter = searchParams.get('category')
+  const [selectedPriceRangeLow, setSelectedPriceRangeLow] = useState<string>()
+  const [selectedPriceRangeHigh, setSelectedPriceRangeHigh] = useState<string>()
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
 
-  const fetcher = (...args: Parameters<typeof fetch>) =>
-    fetch(...args).then((res) => res.json())
+  // console.log(selectedCategory)
 
   const { data, error, isLoading } = useSWR(
     `https://fakestoreapi.com/products/`,
     fetcher
   )
 
-  const displayeProducts = typeFilter
-    ? data?.filter((product: Products) => product.category === typeFilter)
-    : data
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const categoryFilter = searchParams.get('category')
+  const priceFilter = searchParams.get('price_range')
+  console.log(selectedCategory)
 
-  const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectedCategory = e.target.value
-    selectedCategory
-      ? router.push(`?category=${selectedCategory}`)
-      : router.push(`../`)
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value)
+    router.push(`?category=${value}`) // Trigger navigation using router.push
   }
 
-  // const res = await fetch(`https://fakestoreapi.com/products/`)
-  // const data = await res.json()
+  // if (selectedCategory) {
+  //   router.push(`?category=${selectedCategory}`)
+  // }
+
+  const filteredData = categoryFilter
+    ? data?.filter((product: Products) => product.category === categoryFilter)
+    : data
 
   return (
     <>
@@ -54,99 +61,153 @@ export default function Products() {
         <div className={styles.products_container}>
           {/* <Sidebar /> */}
           <div className={styles.sidebar}>
+            {/* Price filtes */}
             <div className={styles.price_range}>
               <h1>Price Range:</h1>
-              <input type="number" placeholder="7" />
-              <input type="number" placeholder="200" />
+              <input
+                type="number"
+                onChange={(e) => setSelectedPriceRangeLow(e.target.value)}
+              />
+              <input
+                type="number"
+                onChange={(e) => setSelectedPriceRangeHigh(e.target.value)}
+              />
               <button>Apply</button>
             </div>
+            {/* Category filtes */}
             <div className={styles.category}>
               <h1>Choose a category:</h1>
-              <select id="Choose a category:" onChange={handleCategoryChange}>
-                <option value="/">All categories</option>
-                <option value="men's clothing">Mens clothing</option>
-                <option value="women's clothing">Womens clothing</option>
-                <option value="jewelery">Jewelery</option>
-                <option value="electronics">Electronics</option>
-              </select>
+              <input
+                type="radio"
+                id="men"
+                name="category"
+                value="men's clothing"
+                onChange={() => handleCategoryChange("men's clothing")}
+                checked={categoryFilter === "men's clothing"} // Check if it matches the query parameter
+              />
+              <label htmlFor="men">Men's Clothings</label>
+              <br />
+              <input
+                type="radio"
+                id="women"
+                name="category"
+                value="women's clothing"
+                onChange={() => handleCategoryChange("women's clothing")}
+                checked={categoryFilter === "women's clothing"}
+              />
+              <label htmlFor="women">Women's Clothings</label>
+              <br />
+              <input
+                type="radio"
+                id="jewelery"
+                name="category"
+                value="jewelery"
+                onChange={() => handleCategoryChange('jewelery')}
+                checked={categoryFilter === 'jewelery'}
+              />
+              <label htmlFor="jewelery">Jewelerys</label>
+              <br />
+              <input
+                type="radio"
+                id="electronics"
+                name="category"
+                value="electronics"
+                onChange={() => handleCategoryChange('electronics')}
+                checked={categoryFilter === 'electronics'}
+              />
+              <label htmlFor="electronics">Electronics</label>
             </div>
           </div>
-          <div className={styles.products_items}>
-            {displayeProducts?.map((products: Products) => (
-              <>
-                {isLoading ? (
-                  <h1 style={{ fontSize: '20rem' }}>Loading...</h1>
-                ) : (
-                  <div key={products.id}>
-                    <Link
-                      href={`products/${products.id}`}
-                      style={{ textDecoration: 'none', color: 'black' }}
-                    >
-                      <div className={styles.trending_products_item}>
-                        <div className={styles.trending_products_item_image}>
-                          <Image
-                            src={products.image}
-                            height={1000}
-                            width={1000}
-                            alt={`${products.title} image`}
-                            quality={10}
-                            priority={true}
-                          />
-                        </div>
-                        <div className={styles.trending_products_item_content}>
-                          <h1>{products.title}</h1>
-                          <div
-                            className={
-                              styles.trending_products_item_content_category
-                            }
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                            >
-                              <path
-                                d="M3.75 6C3.75 4.75736 4.75736 3.75 6 3.75H8.25C9.49264 3.75 10.5 4.75736 10.5 6V8.25C10.5 9.49264 9.49264 10.5 8.25 10.5H6C4.75736 10.5 3.75 9.49264 3.75 8.25V6Z"
-                                stroke="white"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M3.75 15.75C3.75 14.5074 4.75736 13.5 6 13.5H8.25C9.49264 13.5 10.5 14.5074 10.5 15.75V18C10.5 19.2426 9.49264 20.25 8.25 20.25H6C4.75736 20.25 3.75 19.2426 3.75 18V15.75Z"
-                                stroke="white"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M13.5 6C13.5 4.75736 14.5074 3.75 15.75 3.75H18C19.2426 3.75 20.25 4.75736 20.25 6V8.25C20.25 9.49264 19.2426 10.5 18 10.5H15.75C14.5074 10.5 13.5 9.49264 13.5 8.25V6Z"
-                                stroke="white"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M13.5 15.75C13.5 14.5074 14.5074 13.5 15.75 13.5H18C19.2426 13.5 20.25 14.5074 20.25 15.75V18C20.25 19.2426 19.2426 20.25 18 20.25H15.75C14.5074 20.25 13.5 19.2426 13.5 18V15.75Z"
-                                stroke="white"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                            <span>{products.category}</span>
+          {isLoading ? (
+            <div className={styles.loading_skeleton_container}>
+              {Array.from({ length: 7 }).map((_, index) => (
+                <Loading key={index} />
+              ))}
+            </div>
+          ) : (
+            <div className={styles.products_items}>
+              {filteredData?.map((products: Products) => (
+                <React.Fragment key={products.id}>
+                  {isLoading ? (
+                    <h1 key={products.id} style={{ fontSize: '20rem' }}>
+                      Loading...
+                    </h1>
+                  ) : (
+                    <div key={products.id}>
+                      <Link
+                        key={products.id}
+                        href={`products/${products.id}`}
+                        style={{ textDecoration: 'none', color: 'black' }}
+                      >
+                        <div className={styles.trending_products_item}>
+                          <div className={styles.trending_products_item_image}>
+                            <Image
+                              src={products.image}
+                              height={1000}
+                              width={1000}
+                              alt={`${products.title} image`}
+                              quality={100}
+                              priority={true}
+                            />
                           </div>
-                          <p>Price: ${products.price}</p>
+                          <div
+                            className={styles.trending_products_item_content}
+                          >
+                            <h1>{products.title}</h1>
+                            <div
+                              className={
+                                styles.trending_products_item_content_category
+                              }
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                              >
+                                <path
+                                  d="M3.75 6C3.75 4.75736 4.75736 3.75 6 3.75H8.25C9.49264 3.75 10.5 4.75736 10.5 6V8.25C10.5 9.49264 9.49264 10.5 8.25 10.5H6C4.75736 10.5 3.75 9.49264 3.75 8.25V6Z"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M3.75 15.75C3.75 14.5074 4.75736 13.5 6 13.5H8.25C9.49264 13.5 10.5 14.5074 10.5 15.75V18C10.5 19.2426 9.49264 20.25 8.25 20.25H6C4.75736 20.25 3.75 19.2426 3.75 18V15.75Z"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M13.5 6C13.5 4.75736 14.5074 3.75 15.75 3.75H18C19.2426 3.75 20.25 4.75736 20.25 6V8.25C20.25 9.49264 19.2426 10.5 18 10.5H15.75C14.5074 10.5 13.5 9.49264 13.5 8.25V6Z"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M13.5 15.75C13.5 14.5074 14.5074 13.5 15.75 13.5H18C19.2426 13.5 20.25 14.5074 20.25 15.75V18C20.25 19.2426 19.2426 20.25 18 20.25H15.75C14.5074 20.25 13.5 19.2426 13.5 18V15.75Z"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                              <span>{products.category}</span>
+                            </div>
+                            <p>Price: ${products.price}</p>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  </div>
-                )}
-              </>
-            ))}
-          </div>
+                      </Link>
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          )}
+          {/* <Loading /> */}
         </div>
       </section>
     </>
