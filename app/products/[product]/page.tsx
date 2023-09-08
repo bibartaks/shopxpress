@@ -7,12 +7,12 @@ import React from 'react'
 import useSWR from 'swr'
 import { useGlobalContext } from 'context/GlobalContext'
 import Loading from '@/components/Loading/Loading'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function Product({ params }) {
-  const { cartItems, increment, deccrement } = useGlobalContext()
+  const { increment } = useGlobalContext()
   const { product } = params
-
-  console.log(cartItems)
 
   const fetcher = (...args: Parameters<typeof fetch>) =>
     fetch(...args).then((res) => res.json())
@@ -22,29 +22,33 @@ export default function Product({ params }) {
     fetcher
   )
 
+  const notify = () => {
+    toast.success('Item added to the cart')
+  }
+
   return (
     <>
       <Navbar />
       {isLoading ? (
         <Loading />
       ) : (
-        <section id={styles.product_item}>
-          <h1>{cartItems?.quantity}</h1>
-          <div className={styles.product_item_container}>
-            <div className={styles.image_content}>
-              <Image
-                src={data?.image}
-                width={250}
-                height={300}
-                alt="prodct image"
-                priority
-              />
-            </div>
-            <div className={styles.text_content}>
-              <h1>{data?.title}</h1>
+        <>
+          <section id={styles.product_item}>
+            <div className={styles.product_item_container}>
+              <div className={styles.image_content}>
+                <Image
+                  src={data?.image}
+                  width={250}
+                  height={300}
+                  alt="prodct image"
+                  priority
+                />
+              </div>
+              <div className={styles.text_content}>
+                <h1>{data?.title}</h1>
 
-              <div className={styles.category}>
-                {/* <svg
+                <div className={styles.category}>
+                  {/* <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
@@ -80,25 +84,33 @@ export default function Product({ params }) {
                   strokeLinejoin="round"
                 />
               </svg> */}
-                <span>{data?.category}</span>
+                  <span>{data?.category}</span>
+                </div>
+                <div className={styles.price}>
+                  <p>Price: ${data?.price}</p>
+                </div>
+                <div className={styles.description}>
+                  <p>{data?.description}</p>
+                </div>
+                <button
+                  // onClick={() => {
+                  //   increment(data?.id), notify
+                  // }}
+                  onClick={() => {
+                    notify()
+                    increment(data?.id)
+                  }}
+                  className={styles.add_to_cart_btn}
+                >
+                  Add to cart
+                </button>
+                <ToastContainer />
+                <br />
+                <br />
               </div>
-              <div className={styles.price}>
-                <p>Price: ${data?.price}</p>
-              </div>
-              <div className={styles.description}>
-                <p>{data?.description}</p>
-              </div>
-              <button
-                onClick={() => increment(data?.id)}
-                className={styles.add_to_cart_btn}
-              >
-                Add to cart
-              </button>
-              <br />
-              <br />
             </div>
-          </div>
-        </section>
+          </section>
+        </>
       )}
     </>
   )

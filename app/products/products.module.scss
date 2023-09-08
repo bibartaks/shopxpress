@@ -39,13 +39,15 @@
     button {
       display: flex;
       //   background-color: rgb(15, 23, 42);
-      border: 1px solid rgb(15, 23, 42);
+      // border: 1px solid rgb(15, 23, 42);
+      border: none;
       color: white;
       font-family: inherit;
       padding: 0.5rem 2rem;
       border-radius: 10px;
+      background-color: #4f46e5;
       cursor: pointer;
-      color: black;
+      color: white;
 
       &:hover {
         opacity: 0.8;
@@ -72,6 +74,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 200px));
+    grid-template-rows: 1fr 1fr;
     margin: 1rem 0;
     display: grid;
     grid-column-gap: 30px;
@@ -81,8 +84,9 @@
       cursor: pointer;
       height: 100%;
       padding: 1rem;
-      border: 1px solid rgba(0, 0, 0, 0.445);
-      box-shadow: 0.5px 0.5px 1px gray;
+      border-radius: 10px;
+      border: 1px solid lightgray;
+
       display: flex;
       flex-direction: column;
       justify-content: space-between;
