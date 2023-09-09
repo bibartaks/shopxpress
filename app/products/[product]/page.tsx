@@ -28,7 +28,6 @@ export default function Product({ params }) {
 
   return (
     <>
-      <Navbar />
       {isLoading ? (
         <Loading />
       ) : (

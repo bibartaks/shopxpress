@@ -14,16 +14,18 @@
 
       .trending_products_item {
         padding: 1rem;
-        border: 1px solid rgba(0, 0, 0, 0.445);
+        border: 1px solid lightgray;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
+        border-radius: 10px;
 
         .trending_products_item_image {
           margin-bottom: 1rem;
           img {
-            height: 160px;
+            // height: 160px;
+            height: 120px;
             width: 100%;
           }
         }
@@ -43,7 +45,7 @@
           .trending_products_item_content_category {
             display: flex;
             align-self: flex-start;
-            padding: 0.5rem 0.8rem;
+            padding: 0.3rem 0.5rem;
             background-color: rgb(15, 23, 42);
             display: flex;
             align-items: center;
@@ -51,13 +53,14 @@
             border-radius: 10px;
 
             span {
-              font-size: 0.9rem;
+              font-size: 0.8rem;
               color: white;
               border-radius: 0.7rem;
             }
 
             svg {
               margin-right: 0.4rem;
+              width: 20px;
             }
           }
         }

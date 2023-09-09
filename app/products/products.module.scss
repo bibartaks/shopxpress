@@ -10,6 +10,8 @@
 
   .sidebar {
     width: 300px;
+    height: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.336);
 
     // position: sticky;
     // top: 0;
@@ -83,7 +85,7 @@
     .trending_products_item {
       cursor: pointer;
       height: 100%;
-      padding: 1rem;
+      padding-top: 1rem;
       border-radius: 10px;
       border: 1px solid lightgray;
 
@@ -93,14 +95,17 @@
       align-items: center;
 
       .trending_products_item_image {
-        margin-bottom: 1rem;
+        width: 100%;
         img {
+          display: block;
+          margin: auto;
           height: 120px;
           width: auto;
         }
       }
 
       .trending_products_item_content {
+        padding: 1rem 1rem;
         display: flex;
         flex-direction: column;
         align-self: start;

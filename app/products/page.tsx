@@ -99,7 +99,6 @@ export default function Products() {
 
   return (
     <>
-      <Navbar />
       <section id={styles.products}>
         <div className={styles.products_container}>
           {/* <Sidebar /> */}
