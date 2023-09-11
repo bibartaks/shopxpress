@@ -14,7 +14,7 @@ export default function ProductsBanner() {
             <h1>Men's Dresses</h1>
             <p>Explore all the cool t-shirt product's we have</p>
             <Link
-              href={'/'}
+              href={'/products?category=men%27s%20clothing'}
               className="transition  border-black bg-indigo-500 flex self-start px-5 py-2 rounded-md text-white hover:bg-white hover:text-black"
             >
               Shop Now
@@ -29,7 +29,7 @@ export default function ProductsBanner() {
             <h1>Women's Dresses</h1>
             <p>Explore all the cool women-dress product's we have</p>
             <Link
-              href={'/'}
+              href={'/products?category=women%27s%20clothing'}
               className="transition  border-black bg-indigo-500 flex self-start px-5 py-2 rounded-md text-white hover:bg-white hover:text-black"
             >
               Shop Now

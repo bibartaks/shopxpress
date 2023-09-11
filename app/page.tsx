@@ -3,6 +3,8 @@ import Navbar from '@/components/Navbar'
 import Category from '@/components/Category'
 import TrendingProducts from '@/components/TrendingProducts'
 import ProductsBanner from './components/ProductsBanner/ProductsBanner'
+import BestDeals from './components/BestDeals/BestDeals'
+import Footer from './components/Footer/Footer'
 
 export default function Home() {
   return (
@@ -11,6 +13,7 @@ export default function Home() {
       <Category />
       <TrendingProducts />
       <ProductsBanner />
+      <BestDeals />
     </>
   )
 }

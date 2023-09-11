@@ -13,6 +13,8 @@ import { useSearchParams } from 'next/navigation'
 import Loading from '@/components/Loading/Loading'
 import fetcher from 'lib/fetcher'
 import debounce from 'lodash/debounce'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 type Products = {
   id: string
@@ -31,6 +33,8 @@ export default function Products() {
     fetcher
   )
 
+  const MySwal = withReactContent(Swal)
+
   const searchParams = useSearchParams()
   const categoryFilter = searchParams.get('category')
   const priceFilter = searchParams.get('price_range')
@@ -46,6 +50,8 @@ export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState<string>(
     categoryFilter || ''
   )
+
+  console.log(selectedPriceRangeHigh, selectedPriceRangeLow)
 
   useEffect(() => {
     setSelectedCategory(categoryFilter || '')
@@ -66,24 +72,53 @@ export default function Products() {
     setSelectedCategory(value)
 
     router.push(
+      // `?category=${value}${
+      //   selectedPriceRangeLow !== null && selectedPriceRangeHigh !== null
+      //     ? `&price_range=${selectedPriceRangeLow}-${selectedPriceRangeHigh}`
+      //     : ''
+      // }`
       `?category=${value}${
         selectedPriceRangeLow !== null && selectedPriceRangeHigh !== null
-          ? `&price_range=${selectedPriceRangeLow}-${selectedPriceRangeHigh}`
+          ? `${
+              selectedPriceRangeLow > 0 && selectedPriceRangeHigh > 0
+                ? `&price_range=${selectedPriceRangeLow}-${selectedPriceRangeHigh}`
+                : `&price_range=`
+            }`
           : ''
       }`
     )
   }, 200) // Adjust the debounce delay as needed
+
+  // &price_range=${selectedPriceRangeLow}-${selectedPriceRangeHigh}
 
   const handleCategoryChange = (value: string) => {
     handleCategoryChangeDebounced(value)
   }
 
   const handleApplyPriceChange = () => {
-    if (selectedPriceRangeLow !== null && selectedPriceRangeHigh !== null) {
-      router.push(
-        `?category=${selectedCategory}&price_range=${selectedPriceRangeLow}-${selectedPriceRangeHigh}`
-      )
+    if (selectedPriceRangeHigh && selectedPriceRangeLow) {
+      if (selectedPriceRangeLow !== null && selectedPriceRangeHigh !== null) {
+        // if (selectedPriceRangeLow > 1 && selectedPriceRangeHigh > 1) {
+        router.push(
+          `?category=${selectedCategory}&price_range=${selectedPriceRangeLow}-${selectedPriceRangeHigh}`
+        )
+      } else {
+        console.log('fuck')
+      }
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Please select a price range',
+        showConfirmButton: false,
+        showCloseButton: true,
+      })
     }
+  }
+
+  const handleClearPrice = () => {
+    router.push(`?category=${selectedCategory}&price_range=`)
+    setSelectedPriceRangeLow(0)
+    setSelectedPriceRangeHigh(0)
   }
 
   const filteredData = data?.filter((product: Products) => {
@@ -111,6 +146,7 @@ export default function Products() {
             <div className={styles.price_range}>
               <h1>Price Range:</h1>
               <input
+                required
                 type="number"
                 value={selectedPriceRangeLow || ''}
                 onChange={(e) =>
@@ -119,12 +155,14 @@ export default function Products() {
                   )
                 }
                 placeholder={
-                  highPriceAndlowPrice
+                  highPriceAndlowPrice > 0
                     ? highPriceAndlowPrice[0]
                     : 'Enter your price'
                 }
+                min="0"
               />
               <input
+                required
                 type="number"
                 value={selectedPriceRangeHigh || ''}
                 onChange={(e) =>
@@ -133,13 +171,18 @@ export default function Products() {
                   )
                 }
                 placeholder={
-                  highPriceAndlowPrice
+                  highPriceAndlowPrice > 0
                     ? highPriceAndlowPrice[1]
                     : 'Enter your price'
                 }
+                min="0"
               />
 
               <button onClick={handleApplyPriceChange}>Apply</button>
+              <br />
+              {selectedPriceRangeLow && selectedPriceRangeHigh ? (
+                <button onClick={handleClearPrice}>Clear Filter</button>
+              ) : null}
             </div>
             {/* Category filters */}
             <div className={styles.category}>

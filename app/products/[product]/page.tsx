@@ -9,9 +9,10 @@ import { useGlobalContext } from 'context/GlobalContext'
 import Loading from '@/components/Loading/Loading'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import ProductItemLoadingSkeleton from '@/components/ProductItemLoadingSkeleton/ProductItemLoadingSkeleton'
 
-export default function Product({ params }) {
-  const { increment } = useGlobalContext()
+export default function Product({ params }: any) {
+  const { increment }: any = useGlobalContext()
   const { product } = params
 
   const fetcher = (...args: Parameters<typeof fetch>) =>
@@ -28,11 +29,11 @@ export default function Product({ params }) {
 
   return (
     <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <section id={styles.product_item}>
+      <>
+        <section id={styles.product_item}>
+          {isLoading ? (
+            <ProductItemLoadingSkeleton />
+          ) : (
             <div className={styles.product_item_container}>
               <div className={styles.image_content}>
                 <Image
@@ -108,9 +109,9 @@ export default function Product({ params }) {
                 <br />
               </div>
             </div>
-          </section>
-        </>
-      )}
+          )}
+        </section>
+      </>
     </>
   )
 }

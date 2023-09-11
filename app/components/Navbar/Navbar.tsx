@@ -16,18 +16,9 @@ export default function Navbar() {
           <Link href="/">Home</Link>
           <Link href="/products">Products</Link>
           <Link href="/">About Us</Link>
-          {/* <Link href="/">Contact Us</Link> */}
+          <Link href="/contact">Contact Us</Link>
           <Link href="/cart">
             <div className={styles.cart_items}>
-              {/* <Image
-                className={styles.cart_icon}
-                src="/cart_icon.webp"
-                height={50}
-                width={50}
-                alt="cart icon"
-                placeholder="blur"
-                blurDataURL={'/cart_icon.webp'}
-              /> */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

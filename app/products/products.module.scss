@@ -5,7 +5,11 @@
   // display: flex;
   display: grid;
   grid-template-columns: 300px 1fr;
+  // grid-template-rows: 1fr 200px;
+  min-height: 100vh;
   gap: 5rem;
+  justify-content: start;
+  align-items: start;
   //   justify-content: space-between;
 
   .sidebar {
