@@ -29,6 +29,7 @@ export default async function TrendingProducts() {
                   height={1000}
                   width={1000}
                   alt={`${products.title} image`}
+                  priority
                 />
               </div>
               <div className={styles.trending_products_item_content}>

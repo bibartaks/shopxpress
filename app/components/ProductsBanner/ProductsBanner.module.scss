@@ -2,11 +2,16 @@
   .products_banner_container {
     max-width: 1500px;
     margin: auto;
+    padding: 0 1rem;
 
     .t_shirt_bannar {
       overflow: hidden;
       margin-bottom: 5rem;
-      height: 300px;
+
+      @media screen and (max-width: 800px) {
+        margin-bottom: 2rem;
+      }
+
       background: linear-gradient(
           123.35deg,
           #ebf3d0,
@@ -103,12 +108,23 @@
         linear-gradient(0deg, #c2a6f1, #c2a6f1);
 
       display: flex;
-
       align-items: center;
+      padding: 2rem 0;
+      height: 300px;
+
+      @media screen and (max-width: 800px) {
+        height: 100%;
+        flex-direction: column;
+        align-items: start;
+      }
 
       .t_shirt_bannar_text_content {
         width: 70%;
-        padding: 0 2rem;
+        padding: 0 1rem;
+
+        @media screen and (max-width: 800px) {
+          width: 100%;
+        }
 
         h1 {
           margin-bottom: 0.1rem;
@@ -116,6 +132,7 @@
 
         p {
           margin-bottom: 1rem;
+          font-size: 0.9rem;
         }
 
         a {
@@ -125,6 +142,11 @@
           padding: 0.5rem 1rem;
           border-radius: 10px;
           transition: 0.5s all linear;
+
+          @media screen and (max-width: 800px) {
+            padding: 0.4rem 0.5rem;
+            font-size: 0.9rem;
+          }
 
           &:hover {
             opacity: 0.8;
@@ -136,6 +158,10 @@
         overflow: hidden;
         height: 100%;
         width: 100%;
+
+        @media screen and (max-width: 800px) {
+          display: none;
+        }
       }
     }
   }
@@ -149,7 +175,17 @@
     .womens_dress_banner {
       overflow: hidden;
       margin-bottom: 2rem;
-      height: 300px;
+
+      @media screen and (max-width: 800px) {
+        margin-bottom: 1rem;
+      }
+
+      padding: 2rem 0;
+
+      @media screen and (max-width: 800px) {
+        padding: 2rem 0;
+      }
+
       background: linear-gradient(
           123.35deg,
           #ebf3d0,
@@ -247,12 +283,18 @@
 
       display: flex;
       flex-direction: row-reverse;
-
       align-items: center;
+      height: 300px;
+
+      @media screen and (max-width: 800px) {
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+      }
 
       .womens_dress_banner_text_content {
-        width: 70%;
-        padding: 0 2rem;
+        width: 100%;
+        padding: 0 1rem;
 
         h1 {
           margin-bottom: 0.1rem;
@@ -260,6 +302,10 @@
 
         p {
           margin-bottom: 1rem;
+
+          @media screen and (max-width: 800px) {
+            font-size: 0.9rem;
+          }
         }
 
         a {
@@ -269,6 +315,11 @@
           padding: 0.5rem 1rem;
           border-radius: 10px;
           transition: 0.5s all linear;
+
+          @media screen and (max-width: 800px) {
+            padding: 0.4rem 0.5rem;
+            font-size: 0.9rem;
+          }
 
           &:hover {
             opacity: 0.8;
@@ -280,6 +331,10 @@
         overflow: hidden;
         height: 100%;
         width: 100%;
+
+        @media screen and (max-width: 800px) {
+          display: none;
+        }
       }
     }
   }

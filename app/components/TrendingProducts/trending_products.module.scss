@@ -1,5 +1,10 @@
 #trending_products {
   padding: 5rem 2rem;
+
+  @media screen and (max-width: 800px) {
+    padding: 5rem 1rem;
+  }
+
   .trending_products_container {
     max-width: 1500px;
     margin: auto;
@@ -8,9 +13,15 @@
       margin: 1rem 0;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 200px));
-      justify-content: space-between;
-      grid-column-gap: 10px;
+      justify-content: start;
+      grid-column-gap: 20px;
       grid-row-gap: 40px;
+
+      @media screen and (max-width: 800px) {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 50px));
+        justify-content: start;
+        grid-column-gap: 20px;
+      }
 
       .trending_products_item {
         padding: 1rem;
@@ -27,6 +38,10 @@
             // height: 160px;
             height: 120px;
             width: 100%;
+
+            @media screen and (max-width: 800px) {
+              height: 100px;
+            }
           }
         }
 

@@ -49,7 +49,7 @@ export default function Cart() {
   )
 
   const filteredData = data?.filter((product: any) =>
-    cartItems?.some((cartItem) => cartItem.id === product.id)
+    cartItems?.some((cartItem: any) => cartItem.id === product.id)
   )
 
   const formatter = new Intl.NumberFormat('en-US', {

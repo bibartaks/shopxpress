@@ -1,23 +1,48 @@
 #best_deals {
+  padding: 5rem 2rem;
+
+  @media screen and (max-width: 800px) {
+    padding: 5rem 1rem;
+  }
+
   .best_deals_container {
     background: linear-gradient(to left, skyblue, rgb(109, 40, 217));
     max-width: 1500px;
     margin: auto;
     padding: 5rem 2rem;
 
+    @media screen and (max-width: 800px) {
+      padding: 2rem 0;
+    }
+
     .best_deals_text_content {
       padding: 0 2rem;
+
+      @media screen and (max-width: 800px) {
+        padding: 0 1rem;
+      }
+
       h1 {
         font-size: 2rem;
         color: white;
         letter-spacing: 2px;
         margin-bottom: 1rem;
+
+        @media screen and (max-width: 800px) {
+          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+        }
       }
 
       p {
         max-width: 700px;
         color: white;
         margin-bottom: 2rem;
+
+        @media screen and (max-width: 800px) {
+          font-size: 0.9rem;
+          line-height: 200%;
+        }
       }
 
       .best_deals_form {
@@ -26,6 +51,9 @@
           padding: 0.5rem 0.2rem;
           width: 20%;
           margin-right: 0.2rem;
+          @media screen and (max-width: 800px) {
+            width: 70%;
+          }
         }
 
         button {

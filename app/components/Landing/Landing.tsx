@@ -20,7 +20,7 @@ export default function Landing() {
             electronics to home essentials, we have got it all. Start your
             journey with ShopXpress today and redefine the way you shop!
           </p>
-          <Link href="/">See the products</Link>
+          <Link href="/products">See the products</Link>
         </div>
         <div className={styles.landing_img_content}>
           <Image

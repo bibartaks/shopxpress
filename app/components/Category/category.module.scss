@@ -1,5 +1,9 @@
 #category {
   padding: 0rem 2rem;
+
+  @media screen and (max-width: 800px) {
+    padding: 0rem 1rem;
+  }
 }
 
 .category_container {

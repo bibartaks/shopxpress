@@ -15,5 +15,5 @@ export default function TotalQuantity() {
     )
     setLocalTotalItemCount(total)
   }, [cartItems])
-  return <p>{localTotalItemCount}</p>
+  return <p>{localTotalItemCount ? localTotalItemCount : null}</p>
 }

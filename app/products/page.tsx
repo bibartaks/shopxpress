@@ -1,8 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client'
 
-import Navbar from '@/components/Navbar'
-import React, { useState, useEffect, Suspense, ChangeEvent } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './products.module.scss'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -41,11 +40,20 @@ export default function Products() {
 
   const highPriceAndlowPrice = priceFilter?.split('-').map(Number)
 
-  const [selectedPriceRangeLow, setSelectedPriceRangeLow] = useState(
-    highPriceAndlowPrice ? highPriceAndlowPrice[0] : null
+  const [selectedPriceRangeLow, setSelectedPriceRangeLow] = useState<
+    number | null
+  >(
+    highPriceAndlowPrice && highPriceAndlowPrice.length > 0
+      ? highPriceAndlowPrice[0]
+      : null
   )
-  const [selectedPriceRangeHigh, setSelectedPriceRangeHigh] = useState(
-    highPriceAndlowPrice ? highPriceAndlowPrice[1] : null
+
+  const [selectedPriceRangeHigh, setSelectedPriceRangeHigh] = useState<
+    number | null
+  >(
+    highPriceAndlowPrice && highPriceAndlowPrice.length > 1
+      ? highPriceAndlowPrice[1]
+      : null
   )
   const [selectedCategory, setSelectedCategory] = useState<string>(
     categoryFilter || ''
@@ -57,26 +65,10 @@ export default function Products() {
     setSelectedCategory(categoryFilter || '')
   }, [categoryFilter])
 
-  // const handleCategoryChange = (value: string) => {
-  //   setSelectedCategory(value)
-
-  //   router.push(
-  //     `?category=${value}${
-  //       selectedPriceRangeLow && selectedPriceRangeHigh
-  //         ? `&price_range=${selectedPriceRangeLow}-${selectedPriceRangeHigh}`
-  //         : ''
-  //     }`
-  //   )
-  // }
   const handleCategoryChangeDebounced = debounce((value: string) => {
     setSelectedCategory(value)
 
     router.push(
-      // `?category=${value}${
-      //   selectedPriceRangeLow !== null && selectedPriceRangeHigh !== null
-      //     ? `&price_range=${selectedPriceRangeLow}-${selectedPriceRangeHigh}`
-      //     : ''
-      // }`
       `?category=${value}${
         selectedPriceRangeLow !== null && selectedPriceRangeHigh !== null
           ? `${
@@ -89,8 +81,6 @@ export default function Products() {
     )
   }, 200) // Adjust the debounce delay as needed
 
-  // &price_range=${selectedPriceRangeLow}-${selectedPriceRangeHigh}
-
   const handleCategoryChange = (value: string) => {
     handleCategoryChangeDebounced(value)
   }
@@ -98,12 +88,9 @@ export default function Products() {
   const handleApplyPriceChange = () => {
     if (selectedPriceRangeHigh && selectedPriceRangeLow) {
       if (selectedPriceRangeLow !== null && selectedPriceRangeHigh !== null) {
-        // if (selectedPriceRangeLow > 1 && selectedPriceRangeHigh > 1) {
         router.push(
           `?category=${selectedCategory}&price_range=${selectedPriceRangeLow}-${selectedPriceRangeHigh}`
         )
-      } else {
-        console.log('fuck')
       }
     } else {
       Swal.fire({
@@ -132,108 +119,159 @@ export default function Products() {
     return true
   })
 
-  // if (filteredData?.length === 0) {
-  //   return <h1>LOL</h1>
-  // }
+  const [showSidebar, setShowSidebar] = useState(false)
+
+  function showFilterMobile() {
+    setShowSidebar(!showSidebar)
+  }
+
+  function handleClose() {
+    setShowSidebar(false)
+  }
 
   return (
     <>
       <section id={styles.products}>
         <div className={styles.products_container}>
-          {/* <Sidebar /> */}
-          <div className={styles.sidebar}>
-            {/* Price filters */}
-            <div className={styles.price_range}>
-              <h1>Price Range:</h1>
-              <input
-                required
-                type="number"
-                value={selectedPriceRangeLow || ''}
-                onChange={(e) =>
-                  setSelectedPriceRangeLow(
-                    e.target.value === '' ? null : +e.target.value
-                  )
-                }
-                placeholder={
-                  highPriceAndlowPrice > 0
-                    ? highPriceAndlowPrice[0]
-                    : 'Enter your price'
-                }
-                min="0"
-              />
-              <input
-                required
-                type="number"
-                value={selectedPriceRangeHigh || ''}
-                onChange={(e) =>
-                  setSelectedPriceRangeHigh(
-                    e.target.value === '' ? null : +e.target.value
-                  )
-                }
-                placeholder={
-                  highPriceAndlowPrice > 0
-                    ? highPriceAndlowPrice[1]
-                    : 'Enter your price'
-                }
-                min="0"
-              />
+          {showSidebar && (
+            <div className={styles.sidebar}>
+              <div className={styles.close_btn} onClick={handleClose}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
 
-              <button onClick={handleApplyPriceChange}>Apply</button>
-              <br />
-              {selectedPriceRangeLow && selectedPriceRangeHigh ? (
-                <button onClick={handleClearPrice}>Clear Filter</button>
-              ) : null}
+              <div className={styles.price_range}>
+                <h1>Price Range:</h1>
+                <input
+                  required
+                  type="number"
+                  value={selectedPriceRangeLow || ''}
+                  onChange={(e) =>
+                    setSelectedPriceRangeLow(
+                      e.target.value === '' ? null : +e.target.value
+                    )
+                  }
+                  placeholder={
+                    highPriceAndlowPrice > 0
+                      ? highPriceAndlowPrice[0].toString() // Convert number to string
+                      : 'Enter your price'
+                  }
+                  min="0"
+                />
+                <input
+                  required
+                  type="number"
+                  value={selectedPriceRangeHigh || ''}
+                  onChange={(e) =>
+                    setSelectedPriceRangeHigh(
+                      e.target.value === '' ? null : +e.target.value
+                    )
+                  }
+                  placeholder={
+                    highPriceAndlowPrice > 0
+                      ? highPriceAndlowPrice[1]
+                      : 'Enter your price'
+                  }
+                  min="0"
+                />
+
+                <button onClick={handleApplyPriceChange}>Apply</button>
+                <br />
+                {selectedPriceRangeLow && selectedPriceRangeHigh ? (
+                  <button onClick={handleClearPrice}>Clear Filter</button>
+                ) : null}
+              </div>
+              <div className={styles.category}>
+                <h1>Choose a category:</h1>
+                <input
+                  type="radio"
+                  id="men"
+                  name="category"
+                  value="men's clothing"
+                  onChange={() => handleCategoryChange("men's clothing")}
+                  checked={categoryFilter === "men's clothing"}
+                />
+                <label htmlFor="men">Men's Clothings</label>
+                <br />
+                <input
+                  type="radio"
+                  id="women"
+                  name="category"
+                  value="women's clothing"
+                  onChange={() => handleCategoryChange("women's clothing")}
+                  checked={categoryFilter === "women's clothing"}
+                />
+                <label htmlFor="women">Women's Clothings</label>
+                <br />
+                <input
+                  type="radio"
+                  id="jewelery"
+                  name="category"
+                  value="jewelery"
+                  onChange={() => handleCategoryChange('jewelery')}
+                  checked={categoryFilter === 'jewelery'}
+                />
+                <label htmlFor="jewelery">jewelery</label>
+                <br />
+                <input
+                  type="radio"
+                  id="electronics"
+                  name="category"
+                  value="electronics"
+                  onChange={() => handleCategoryChange('electronics')}
+                  checked={categoryFilter === 'electronics'}
+                />
+                <label htmlFor="electronics">Electronics</label>
+              </div>
             </div>
-            {/* Category filters */}
-            <div className={styles.category}>
-              <h1>Choose a category:</h1>
-              <input
-                type="radio"
-                id="men"
-                name="category"
-                value="men's clothing"
-                onChange={() => handleCategoryChange("men's clothing")}
-                checked={categoryFilter === "men's clothing"}
+          )}
+
+          <div className={styles.mobile_filter_logo} onClick={showFilterMobile}>
+            <h4>Filter and sort</h4>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
               />
-              <label htmlFor="men">Men's Clothings</label>
-              <br />
-              <input
-                type="radio"
-                id="women"
-                name="category"
-                value="women's clothing"
-                onChange={() => handleCategoryChange("women's clothing")}
-                checked={categoryFilter === "women's clothing"}
-              />
-              <label htmlFor="women">Women's Clothings</label>
-              <br />
-              <input
-                type="radio"
-                id="jewelery"
-                name="category"
-                value="jewelery"
-                onChange={() => handleCategoryChange('jewelery')}
-                checked={categoryFilter === 'jewelery'}
-              />
-              <label htmlFor="jewelery">jewelery</label>
-              <br />
-              <input
-                type="radio"
-                id="electronics"
-                name="category"
-                value="electronics"
-                onChange={() => handleCategoryChange('electronics')}
-                checked={categoryFilter === 'electronics'}
-              />
-              <label htmlFor="electronics">Electronics</label>
-            </div>
+            </svg>
           </div>
+
           {isLoading ? (
-            <div className={styles.loading_skeleton_container}>
-              {Array.from({ length: 7 }).map((_, index) => (
-                <Loading key={index} />
-              ))}
-            </div>
+            <>
+              <div className={styles.loading_skeleton_container}>
+                {Array.from({ length: 20 }).map((_, index) => (
+                  <Loading key={index} />
+                ))}
+              </div>
+              <div className={styles.mobile_loading}>
+                <Image
+                  src="/mobile_loading.gif"
+                  width={102}
+                  height={102}
+                  alt="fuck"
+                />
+              </div>
+            </>
           ) : (
             <div className={styles.products_items}>
               {filteredData?.map((products: Products) => (

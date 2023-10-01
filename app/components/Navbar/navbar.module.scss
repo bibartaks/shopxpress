@@ -71,6 +71,10 @@
   @media screen and (max-width: 800px) {
     display: block;
   }
+
+  a {
+    text-decoration: none;
+  }
 }
 
 // mobile nav
@@ -103,5 +107,17 @@
     margin-bottom: 1rem;
     padding-top: 0.2rem;
     color: $link_color;
+  }
+}
+
+.cart {
+  background-color: #4f46e5;
+  color: white;
+  display: flex;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+
+  svg {
+    margin-right: 0.3rem;
   }
 }
