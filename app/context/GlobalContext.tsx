@@ -9,33 +9,25 @@ export default function GlobalContextProvider({
 }: {
   children: React.ReactNode
 }) {
-  // // Initialize cartItems with items from local storage or an empty array if there are none
-
-  // const isBrowser = typeof window !== 'undefined';
-
-  // const [cartItems, setCartItems] = useState(
-  //   JSON.parse(localStorage.getItem('cartItems')) || []
-  // )
-
-  // // Save cartItems to local storage whenever it changes
-  // useEffect(() => {
-  //   localStorage.setItem('cartItems', JSON.stringify(cartItems))
-  // }, [cartItems])
-
-  // Check if localStorage is available (for server-side rendering)
   const isBrowser = typeof window !== 'undefined'
 
+  const savedCartItems = isBrowser
+    ? JSON.parse(localStorage.getItem('cartItems') ?? 'null') || []
+    : []
+
+  const [cartItems, setCartItems] = useState(savedCartItems)
+
   // Initialize cartItems with items from local storage or an empty array if there are none
-  const [cartItems, setCartItems] = useState(
-    isBrowser ? JSON.parse(localStorage.getItem('cartItems')) || [] : []
-  )
+  // const [cartItems, setCartItems] = useState(
+  //   isBrowser ? JSON.parse(localStorage.getItem('cartItems')) || [] : []
+  // )
 
   // Save cartItems to local storage whenever it changes (on the client side)
   useEffect(() => {
     if (isBrowser) {
       localStorage.setItem('cartItems', JSON.stringify(cartItems))
     }
-  }, [cartItems])
+  }, [cartItems.isBrowser])
 
   function increment(id: number) {
     // Find the index of the item with the given ID in cartItems
@@ -62,7 +54,7 @@ export default function GlobalContextProvider({
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   })
 
-  function itemTotalPrice(price, id) {
+  function itemTotalPrice(price: number, id: number) {
     const totalPrice = price * getItemQuantity(id)
     return formatter.format(totalPrice)
   }
@@ -117,7 +109,7 @@ export default function GlobalContextProvider({
   }
 
   function calculateTotalPrice() {
-    const totalPrice = cartItems.reduce((acc, item) => {
+    const totalPrice = cartItems.reduce((acc: any, item: any) => {
       // Assuming each item has a 'price' property
       const itemPrice = item.price || 0
       return acc + itemPrice * item.quantity

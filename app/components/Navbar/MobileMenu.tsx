@@ -41,6 +41,7 @@ export default function MobileMenu() {
                 strokeLinejoin="round"
               />
             </svg>
+
             <TotalQuantity />
           </div>
         </Link>
@@ -49,8 +50,6 @@ export default function MobileMenu() {
         <div className={styles.mobile_nav_links}>
           <Link href="/">Home</Link>
           <Link href="/products">Products</Link>
-          <Link href="/about">About Us</Link>
-          <Link href="/contact">Contact Us</Link>
         </div>
       ) : null}
     </nav>

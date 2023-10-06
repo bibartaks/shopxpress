@@ -45,7 +45,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      @media screen and (max-width: 800px) {
+      @media screen and (max-width: 900px) {
         display: none;
       }
 
@@ -68,7 +68,7 @@
 // mobile navbar container
 .mobile_nav_container {
   display: none;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 900px) {
     display: block;
   }
 
@@ -93,7 +93,7 @@
   right: 0;
   margin-top: 1rem;
   background-color: white;
-  height: 200px;
+  height: 100px;
   width: 200px;
   padding: 1rem;
   margin-right: 0.5rem;

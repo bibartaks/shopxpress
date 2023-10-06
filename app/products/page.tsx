@@ -38,12 +38,31 @@ export default function Products() {
   const categoryFilter = searchParams.get('category')
   const priceFilter = searchParams.get('price_range')
 
-  const highPriceAndlowPrice = priceFilter?.split('-').map(Number)
+  // const highPriceAndlowPrice = priceFilter?.split('-').map(Number)
+  const highPriceAndlowPrice = priceFilter?.split('-').map(Number) ?? [0, 0]
+
+  // const [selectedPriceRangeLow, setSelectedPriceRangeLow] = useState<
+  //   number | null
+  // >(
+  //   highPriceAndlowPrice && highPriceAndlowPrice.length > 0
+  //     ? highPriceAndlowPrice[0]
+  //     : null
+  // )
+
+  // const [selectedPriceRangeHigh, setSelectedPriceRangeHigh] = useState<
+  //   number | null
+  // >(
+  //   highPriceAndlowPrice && highPriceAndlowPrice.length > 1
+  //     ? highPriceAndlowPrice[1]
+  //     : null
+  // )
 
   const [selectedPriceRangeLow, setSelectedPriceRangeLow] = useState<
     number | null
   >(
-    highPriceAndlowPrice && highPriceAndlowPrice.length > 0
+    Array.isArray(highPriceAndlowPrice) &&
+      highPriceAndlowPrice.length > 0 &&
+      typeof highPriceAndlowPrice[0] === 'number'
       ? highPriceAndlowPrice[0]
       : null
   )
@@ -51,10 +70,13 @@ export default function Products() {
   const [selectedPriceRangeHigh, setSelectedPriceRangeHigh] = useState<
     number | null
   >(
-    highPriceAndlowPrice && highPriceAndlowPrice.length > 1
+    Array.isArray(highPriceAndlowPrice) &&
+      highPriceAndlowPrice.length > 1 &&
+      typeof highPriceAndlowPrice[1] === 'number'
       ? highPriceAndlowPrice[1]
       : null
   )
+
   const [selectedCategory, setSelectedCategory] = useState<string>(
     categoryFilter || ''
   )
@@ -163,9 +185,17 @@ export default function Products() {
                       e.target.value === '' ? null : +e.target.value
                     )
                   }
+                  // placeholder={
+                  //   highPriceAndlowPrice > 0
+                  //     ? highPriceAndlowPrice?.[0]?.toString() // Convert number to string
+                  //     : 'Enter your price'
+                  // }
                   placeholder={
-                    highPriceAndlowPrice > 0
-                      ? highPriceAndlowPrice[0].toString() // Convert number to string
+                    Array.isArray(highPriceAndlowPrice) &&
+                    highPriceAndlowPrice.length > 0
+                      ? highPriceAndlowPrice[0] !== 0
+                        ? highPriceAndlowPrice[0].toString()
+                        : 'Enter your price'
                       : 'Enter your price'
                   }
                   min="0"
@@ -179,9 +209,17 @@ export default function Products() {
                       e.target.value === '' ? null : +e.target.value
                     )
                   }
+                  // placeholder={
+                  //   highPriceAndlowPrice > 0
+                  //     ? highPriceAndlowPrice?.[1]
+                  //     : 'Enter your price'
+                  // }
                   placeholder={
-                    highPriceAndlowPrice > 0
-                      ? highPriceAndlowPrice[1]
+                    Array.isArray(highPriceAndlowPrice) &&
+                    highPriceAndlowPrice.length > 1
+                      ? highPriceAndlowPrice[1] !== 0
+                        ? highPriceAndlowPrice[1]?.toString()
+                        : 'Enter your price'
                       : 'Enter your price'
                   }
                   min="0"
