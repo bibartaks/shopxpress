@@ -1,6 +1,7 @@
 'use client'
 
 import { useGlobalContext } from 'context/GlobalContext'
+import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 
 export default function TotalQuantity() {

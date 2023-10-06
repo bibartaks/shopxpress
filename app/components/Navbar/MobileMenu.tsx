@@ -24,7 +24,7 @@ export default function MobileMenu() {
           height={32}
           alt="menu icon"
         />
-        <Link href="/">
+        <Link href="/cart">
           <div className={styles.cart}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,6 @@ export default function MobileMenu() {
                 strokeLinejoin="round"
               />
             </svg>
-
             <TotalQuantity />
           </div>
         </Link>
