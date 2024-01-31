@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from './/footer.module.scss'
 
 export default function Footer() {
@@ -14,7 +13,7 @@ export default function Footer() {
           <p>Track Order</p>
         </div>
         <div className={styles.logo}>
-          <h3>© 2023 ShopXPress All Rights Reserved</h3>
+          <h3>© 2024 ShopXPress All Rights Reserved</h3>
         </div>
       </div>
     </footer>
